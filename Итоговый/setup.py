@@ -29,7 +29,7 @@ setup(
     'License :: OSI Approved :: MIT License',
     'Operating System :: OS Independent'
   ],
-  keywords='Web Analyze',
+  keywords='Итоговый',
   project_urls={
     'GitHub': 'https://github.com/st99-01-05/pstu_python2/tree/main/Итоговый'
   },
