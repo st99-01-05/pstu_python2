@@ -5,8 +5,10 @@ from bs4 import BeautifulSoup
 from textblob import TextBlob
 from googletrans import Translator
 from nltk.corpus import stopwords
+from textblob.en.sentiments import NaiveBayesAnalyzer
+from PIL import Image
 import matplotlib.pyplot as plt
-
+import nltk
 
 class Data:
     listP=[]
@@ -14,12 +16,17 @@ class Data:
     listI=[]
 
     def initSoup(self, html):
+        print("parsing...")
         #Инициализация  парсинга html
         self.soup = BeautifulSoup(html, 'html.parser')
 
     def initTextBlob(self, text):
+        #nltk.download('punkt')
+        #nltk.download('movie_reviews')
+
+        print("analyze_text...")
         #Инициализация  и   обработка   текста
-        self.textBlob = TextBlob(text)
+        self.textBlob = TextBlob(text,)
         list = [word for word in self.textBlob.words if word not in stopwords.words('english')]
         text = ' '.join(list)
         self.textBlob = TextBlob(text)
@@ -39,6 +46,7 @@ class Data:
         return result
 
     def getTranslate(self, text):
+        print("translate...")
         # Перевод текста на английский
         return self.translator.translate(text)
 
@@ -63,10 +71,33 @@ class Data:
         #Получение  текста  после  парсинга
         return self.soup.get_text()
 
+    def getNestedLinks(self,html,max_nested=70):
+        tempSoup=BeautifulSoup(html,'html.parser')
+        nested_links=[]
+        for a in tempSoup.find_all('a', href=True):
+            if (a['href'].count('/')>=4):
+                nested_links.append(a['href'])
+            max_nested  =   max_nested-1
+            if max_nested<=0:
+                return nested_links
+        return  nested_links
     def getHTML(self,url):
+        print("get_html...")
         ua = UserAgent()
-        r = requests.get(url, headers={'User-Agent': ua.chrome})
-        return r.text
+        text=""
+        try:
+            r = requests.get(url, headers={'User-Agent': ua.firefox})
+            r.raise_for_status()
+            text=r.text
+        except requests.exceptions.HTTPError as errh:
+            print("Http Error:", errh)
+        except requests.exceptions.ConnectionError as errc:
+            print("Error Connecting:", errc)
+        except requests.exceptions.Timeout as errt:
+            print("Timeout Error:", errt)
+        except requests.exceptions.RequestException as err:
+            print("OOps: Something Else", err)
+        return text
 
     def getURLs(self,query, num_results=5):
         list = []
@@ -91,7 +122,6 @@ class Data:
         plt.xlabel('Counts')
         plt.ylabel('Words')
         plt.title(title)
-
         # Отображение гистограммы
         plt.show()
 
