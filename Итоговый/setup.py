@@ -9,12 +9,12 @@ def readme():
 setup(
   name='package-web-Analyze',
   version='0.0.1',
-  author='maixrock',
-  author_email='maixrock3@gmail.com',
+  author='st99-01-05',
+  author_email='maaglebov@it.permkrai.ru',
   description='Analyze_web_source.',
   long_description=readme(),
   long_description_content_type='text/markdown',
-  url='https://github.com/MaixRock/WebAnalyze/tree/master',
+  url='https://github.com/st99-01-05/pstu_python2/tree/main/Итоговый',
   packages=find_packages(),
   install_requires=['requests>=2.25.1',
                     'googlesearch',
@@ -31,7 +31,7 @@ setup(
   ],
   keywords='Web Analyze',
   project_urls={
-    'GitHub': 'https://github.com/MaixRock/WebAnalyze/tree/master'
+    'GitHub': 'https://github.com/st99-01-05/pstu_python2/tree/main/Итоговый'
   },
   python_requires='>=3.8'
 )
